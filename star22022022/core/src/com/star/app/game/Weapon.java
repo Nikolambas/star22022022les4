@@ -12,6 +12,15 @@ public class Weapon {
     private int maxBullets;
     private int curBullets;
 
+    public void setCurBullets(int bullets) {
+        if (maxBullets>bullets){
+            curBullets += bullets;
+        }if (maxBullets<curBullets){
+            curBullets=100;
+        }
+
+    }
+
     private Vector3[] slots;
 
     public float getFirePeriod() {
