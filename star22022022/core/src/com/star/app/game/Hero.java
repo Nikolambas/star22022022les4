@@ -25,9 +25,24 @@ public class Hero {
     private int scoreView;
     private int hp;
     private int hpMax;
+    private int money;
     private StringBuilder sb;
     private Circle hitArea;
     private Weapon currentWeapon;
+
+    public void setHp(int hp1) {
+        if (hpMax>hp){
+            hp += hp1;
+        }
+        if (hpMax<hp){
+            hp=100;
+        }
+
+    }
+
+    public Weapon getCurrentWeapon() {
+        return currentWeapon;
+    }
 
     public Circle getHitArea() {
         return hitArea;
@@ -49,6 +64,10 @@ public class Hero {
         return angle;
     }
 
+    public void setMoney(int money1) {
+        money += money1;
+    }
+
     public Hero(GameController gc) {
         this.gc = gc;
         this.texture = Assets.getInstance().getAtlas().findRegion("ship");
@@ -58,6 +77,7 @@ public class Hero {
         this.enginePower = 700.0f;
         this.hpMax = 100;
         this.hp = hpMax;
+        this.money=0;
         this.sb = new StringBuilder();
         this.hitArea = new Circle(position, 28);
 
@@ -82,6 +102,7 @@ public class Hero {
         sb.append("SCORE: ").append(scoreView).append("\n");
         sb.append("HP: ").append(hp).append("/").append(hpMax).append("\n");
         sb.append("BULLETS: ").append(currentWeapon.getCurBullets()).append("/").append(currentWeapon.getMaxBullets()).append("\n");
+        sb.append("MONEY: ").append(money).append("\n");
         font.draw(batch, sb, 20, 700);
     }
 

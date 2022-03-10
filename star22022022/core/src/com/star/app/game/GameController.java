@@ -9,8 +9,13 @@ public class GameController {
     private BulletController bulletController;
     private AsteroidController asteroidController;
     private ParticleController particleController;
+    private StuffController stuffController;
     private Hero hero;
     private Vector2 tempVec;
+
+    public StuffController getStuffController() {
+        return stuffController;
+    }
 
     public ParticleController getParticleController() {
         return particleController;
@@ -33,6 +38,7 @@ public class GameController {
     }
 
     public GameController() {
+        this.stuffController=new StuffController();
         this.background = new Background(this);
         this.bulletController = new BulletController(this);
         this.asteroidController = new AsteroidController(this);
@@ -52,6 +58,7 @@ public class GameController {
         bulletController.update(dt);
         asteroidController.update(dt);
         particleController.update(dt);
+        stuffController.update(dt);
         hero.update(dt);
         checkCollisions();
     }
@@ -99,6 +106,23 @@ public class GameController {
                     break;
                 }
             }
+        }
+        // столкновение героя и предметов
+
+        for (int i = 0; i < stuffController.getActiveList().size(); i++) {
+                Stuff stuff = stuffController.getActiveList().get(i);
+                if (hero.getHitArea().contains(stuff.getPosition())){
+                    if (stuff.getType().equals(Stuff.Type.BULLET)){
+                        hero.getCurrentWeapon().setCurBullets(10);
+                    }
+                    if (stuff.getType().equals(Stuff.Type.MEDICINE)){
+                        hero.setHp(5);
+                    }
+                    if (stuff.getType().equals(Stuff.Type.MONEY)){
+                        hero.setMoney(10);
+                    }
+                    stuff.deactivate();
+                }
         }
     }
 }
